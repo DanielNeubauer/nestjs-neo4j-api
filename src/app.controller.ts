@@ -25,20 +25,6 @@ export class AppController {
       result$.subscribe(result => {
         res.status(HttpStatus.OK).json(result);
       });
-      // var session = this._neo4jService.provideSession();
-      // var create$ = from(session.writeTransaction(tx =>
-      //   tx.run(
-      //     'CREATE (a:Greeting) SET a.message = $message RETURN a.message + ", from node " + id(a)',
-      //     { message: 'hello, world' }
-      //   )
-      // ));
-      // create$.subscribe((result) => {
-      //   const singleRecord = result.records[0]
-      //   const node = singleRecord.get(0)
-      //   session.close()
-      // });
-
-
     }catch(error){
       res.status(HttpStatus.OK).json(error);
     } 
