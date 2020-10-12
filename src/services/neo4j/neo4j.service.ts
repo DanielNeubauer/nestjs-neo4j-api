@@ -1,32 +1,22 @@
+import { ConfigurationProvider } from './../../provider/configuration.provider';
 import { Injectable } from '@nestjs/common';
 import * as neo4j from "neo4j-driver";
-import { Observable, from, of } from 'rxjs';
+import { Observable, from } from 'rxjs';
+import { SystemConfigurationEnum } from 'src/enum/system-configuration.enum';
 
 @Injectable()
 export class Neo4jService {
 
     private _driver: neo4j.Driver;
-    public constructor() {
-        this._driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic('dani', 'Dani'));
+    public constructor(
+        private _configurationProvider: ConfigurationProvider
+    ) {
+        const link = this._configurationProvider.provide(SystemConfigurationEnum.Neo4jBoltLink);
+        const dbUser = this._configurationProvider.provide(SystemConfigurationEnum.DbUser);
+        const dbPassword = this._configurationProvider.provide(SystemConfigurationEnum.DbPasswort);
+
+        this._driver = neo4j.driver(link, neo4j.auth.basic(dbUser, dbPassword));
     }
-    // public createSampleEntry(): Observable<neo4j.QueryResult> {
-
-    //     try {
-    //         var
-    //         session$.subscribe((session: neo4j.Session)=>{
-    //             session.writeTransaction(tx =>
-    //                 tx.run(
-    //                     'CREATE (a:Greeting) SET a.message = $message RETURN a.message + ", from node " + id(a)',
-    //                     { message: 'hello, world' }
-    //                 )
-    //             )
-    //             session.close()
-    //         })
-
-    //     } finally {
-    //     }
-
-    // }
 
     public provideSession(): neo4j.Session {
         return this._driver.session();
@@ -37,14 +27,17 @@ export class Neo4jService {
             return await session.writeTransaction(tx =>
                 tx.run(
                     'CREATE (a:Greeting) SET a.message = $message RETURN a.message + ", from node " + id(a)',
-                    { message: 'hello, world' }
+                    { message: 'hello, Daniel' }
                 )
             )
+        } catch(err){
+            console.log(err);
         } finally {
             session.close()
         }
 
     }
+
     private async getAllMaterial(): Promise<neo4j.QueryResult> {
         try {
             var session = this._driver.session();

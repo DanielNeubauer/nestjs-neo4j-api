@@ -26,7 +26,15 @@
             // },
             "sourceMaps": true,
             "console": "internalConsole",
-            "outputCapture": "std"
-          }
-    ]
+            "outputCapture": "std",
+             "env": {
+               "NEO4J_BOLT_LINK": "bolt://localhost:7687",
+               "DB_USER": "neo4j",
+               "DB_PASSWORD": "1234"
+             }
+          },
+          
+    ],
+
+    
 }
