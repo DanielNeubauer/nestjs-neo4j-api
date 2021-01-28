@@ -29,8 +29,8 @@
             "outputCapture": "std",
              "env": {
                "NEO4J_BOLT_LINK": "bolt://localhost:7687",
-               "DB_USER": "neo4j",
-               "DB_PASSWORD": "1234"
+               "DB_USER": "test",
+               "DB_PASSWORD": "test1234"
              }
           },
           
